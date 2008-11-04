@@ -14,12 +14,12 @@ rescue
 	@latest = 0
 end
 
-Dir["lib/db_scripts/*.rb"].each do |sub|
-	v = File.basename(sub).to_i
+Dir["lib/db_scripts/*.rb"].each do |migration|
+	v = File.basename(migration).to_i
 	if v > @latest
-		puts ">> Running migration (#{v}) #{File.basename(sub)}"
+		puts ">> Running migration (#{v}) #{File.basename(migration)}"
 		@latest = v
-		eval(File.open(sub, 'r').read)
+		eval(File.open(migration, 'r').read)
 	end
 end
 
