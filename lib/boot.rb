@@ -1,7 +1,10 @@
-BASE = 'data/'
+require 'pathname'
 
-if not File.exists?(BASE)
-	Dir.mkdir(BASE)
+ROOT = Pathname.new('.').realpath
+DATA = Pathname.new('data/').realpath
+
+if not File.exists?(DATA)
+	Dir.mkdir(DATA)
 end
 
 # setup db

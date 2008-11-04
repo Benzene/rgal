@@ -5,11 +5,11 @@ ActiveRecord::Schema.define do
 		t.timestamps
 	end
 	
-	create_table :images, :force => true do |t|
+	create_table :pictures, :force => true do |t|
 		t.references :album
 		t.text :name
 		t.text :filename
-		t.text :hash, :length => 32
+		t.text :filehash, :length => 32
 	end
 	
 	create_table :schema do |t|
