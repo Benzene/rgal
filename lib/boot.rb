@@ -1,13 +1,8 @@
 BASE = 'data/'
+ROOT = File.dirname(__FILE__) + "/../"
 
-def boot
-	require 'models/image'
-	require 'models/album'
-	require 'models/tag'
-
-	if not File.exists?(BASE)
-		Dir.mkdir(BASE)
-	end
-
-	require 'lib/db'
+if not File.exists?(BASE)
+	Dir.mkdir(BASE)
 end
+
+require 'lib/db'
