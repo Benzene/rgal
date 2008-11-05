@@ -8,8 +8,8 @@ ActiveRecord::Schema.define do
 	create_table :pictures, :force => true do |t|
 		t.references :album
 		t.text :name
-		t.text :filename
-		t.text :filehash, :length => 32
+		t.text :file
+		t.text :filehash, :length => 40
 	end
 	
 	create_table :schema do |t|
