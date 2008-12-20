@@ -2,4 +2,10 @@
 
 <h2><%= @picture.name %></h2>
 
-<img src="/<%= @picture.album.id %>/<%= @picture.id %>/m/" />
+<% unless @picture.next.nil? %>
+	<a href="/<%= @picture.album.id %>/<%= @picture.next.id %>/">
+<% else %>
+	<a href="/<%= @picture.album.id %>/">
+<% end %>
+		<img src="/<%= @picture.album.id %>/<%= @picture.id %>/m/" />
+	</a>

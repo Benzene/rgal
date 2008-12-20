@@ -37,6 +37,18 @@ class Picture < ActiveRecord::Base
 		"/data/#{album.path}/thumbs/th_#{file}"
 	end
 
+	def previous
+		Picture.find :first,
+				:conditions => ["file < ? and album_id = ?", file, album.id],
+				:order => 'file DESC'
+	end
+
+	def next
+		Picture.find :first,
+				:conditions => ["file > ? and album_id = ?", file, album.id],
+				:order => 'file ASC'
+	end
+
 	def generate_thumbnail
 		begin
 			thumb_dir = Pathname.new("#{album.realpath}/thumbs/").realpath
