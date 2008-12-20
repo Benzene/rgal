@@ -110,7 +110,6 @@ class Picture < ActiveRecord::Base
 			end
  
 			thumb = thumb.crop!(Magick::CenterGravity, x, y)
-			puts "#{thumb.columns}x#{thumb.rows}"
 
 			ret = thumb.write(tmp) { self.quality = MAX_QUALITY }
 			thumb.destroy! # mem leak protection
