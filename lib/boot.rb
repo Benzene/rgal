@@ -6,7 +6,7 @@ require 'pathname'
 # (changes to the CSS will also be needed if changing the thumbnail y)
 THUMB_X = 200
 THUMB_Y = 200
-THUMB_QUALITY = 50
+THUMB_QUALITY = 80
 
 # max picture size for slideshow
 MAX_X = 1600
