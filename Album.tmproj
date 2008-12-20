@@ -3,7 +3,46 @@
 <plist version="1.0">
 <dict>
 	<key>documents</key>
-	<array/>
+	<array>
+		<dict>
+			<key>expanded</key>
+			<true/>
+			<key>name</key>
+			<string>lib</string>
+			<key>regexFolderFilter</key>
+			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>sourceDirectory</key>
+			<string>lib</string>
+		</dict>
+		<dict>
+			<key>expanded</key>
+			<true/>
+			<key>name</key>
+			<string>models</string>
+			<key>regexFolderFilter</key>
+			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>sourceDirectory</key>
+			<string>models</string>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>db.log</string>
+			<key>lastUsed</key>
+			<date>2008-11-04T23:43:15Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>console.rb</string>
+			<key>lastUsed</key>
+			<date>2008-11-04T23:59:51Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>checker.rb</string>
+			<key>lastUsed</key>
+			<date>2008-11-05T00:36:21Z</date>
+		</dict>
+	</array>
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>265</integer>
 	<key>metaData</key>
@@ -11,6 +50,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{312, 0}, {958, 778}}</string>
+	<string>{{551, 98}, {958, 778}}</string>
 </dict>
 </plist>

@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'thread'
 require 'lib/boot'
 
 Dir["#{DATA}/*"].each do |album|
