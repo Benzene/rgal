@@ -15,8 +15,10 @@
 			end
 	%>
 		<div class="picture">
-			<img src="<%= picture.thumburl %>" />
-			<%= picture.name %>
+			<a href="/<%= @album.id %>/<%= picture.id %>/">
+				<img src="<%= picture.thumburl %>" />
+				<%= picture.name %>
+			</a>
 		</div>
 	<% end %>
 	<div class="clear"></div>

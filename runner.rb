@@ -14,3 +14,8 @@ get '/:album/' do
 	@album = Album.find_by_id(params[:album])
 	erb :show_album
 end
+
+get '/:album/:picture/' do
+	@picture = Picture.find_by_id_and_album_id(params[:picture], params[:album])
+	erb :show_picture
+end
