@@ -16,7 +16,7 @@
 	%>
 		<div class="picture">
 			<a href="/<%= @album.id %>/<%= picture.id %>/">
-				<img src="<%= picture.thumburl %>" />
+				<img src="<%= picture.url('t') %>" />
 				<%= picture.name %>
 			</a>
 		</div>

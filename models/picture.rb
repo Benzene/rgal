@@ -16,10 +16,6 @@ class Picture < ActiveRecord::Base
 	def filepath
 		Pathname.new("#{album.realpath}/#{file}").realpath
 	end
-
-	def fileurl
-		"/data/#{album.path}/#{file}"
-	end
 	
 	def generate_hash
 		self.filehash = Picture.get_hash(filepath)
@@ -33,8 +29,8 @@ class Picture < ActiveRecord::Base
 		"#{album.realpath}/thumbs/th_#{file}"
 	end
 
-	def thumburl
-		"/data/#{album.path}/thumbs/th_#{file}"
+	def url(size)
+		"/#{album.id}/#{id}/#{size}/"
 	end
 
 	def generate_thumbnail

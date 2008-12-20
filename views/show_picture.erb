@@ -2,4 +2,4 @@
 
 <h2><%= @picture.name %></h2>
 
-<img src="/<%= @picture.album.id %>/<%= @picture.id %>/m/" />
+<img src="<%= @picture.url('m') %>" />
