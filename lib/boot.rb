@@ -1,5 +1,20 @@
 require 'pathname'
 
+### Settings
+
+# thumbnail
+# (changes to the CSS will also be needed if changing the thumbnail y)
+THUMB_X = 200
+THUMB_Y = 200
+THUMB_QUALITY = 50
+
+# max picture size for slideshow
+MAX_X = 1650
+MAX_Y = 1050
+MAX_QUALITY = 80
+
+### Do not change below
+
 ROOT = Pathname.new('.').realpath
 DATA = Pathname.new('data/').realpath
 

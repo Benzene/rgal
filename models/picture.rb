@@ -50,22 +50,22 @@ class Picture < ActiveRecord::Base
 		thumb_file = "#{thumb}"
 
 		begin
-			# resize to 200x200
-			original = Magick::ImageList.new(filepath) { self.size = '200x200' }
+			# resize to THUMB_X x THUMB_Y and save as quality THUMB_QUALITY
+			original = Magick::ImageList.new(filepath) { self.size = "#{THUMB_X}x#{THUMB_Y}" }
 
 			if original.columns < original.rows
-				x = 200
+				x = THUMB_X
 				y = ((x.to_f / original.columns.to_f) * original.rows.to_f).to_i
 			else
-				y = 200
+				y = THUMB_Y
 				x = ((y.to_f / original.rows.to_f) * original.columns.to_f).to_i
 			end
 
 			thumb = original.resize(x, y)
 			original.destroy! # mem leak protection
 				
-			thumb = thumb.crop!(Magick::CenterGravity, 200, 200)
-			ret = thumb.write(thumb_file) { self.quality = 50 }
+			thumb = thumb.crop!(Magick::CenterGravity, THUMB_X, THUMB_Y)
+			ret = thumb.write(thumb_file) { self.quality = THUMB_QUALITY }
 			thumb.destroy! # mem leak protection
 		rescue Exception => e
 			puts "\t** Exception while creating image from #{file}:"
