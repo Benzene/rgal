@@ -74,4 +74,36 @@ class Picture < ActiveRecord::Base
 
 		ret
 	end
+
+	def get_max
+		tmp = "#{album.realpath}/thumbs/m_#{file}.jpg"
+
+		begin
+			# resize to MAX_X x MAX_Y and save as quality MAX_QUALITY
+			original = Magick::ImageList.new(filepath) { self.size = "#{MAX_X}x#{MAX_Y}" }
+
+			if original.columns < original.rows
+				x = MAX_X
+				y = ((x.to_f / original.columns.to_f) * original.rows.to_f).to_i
+			else
+				y = MAX_Y
+				x = ((y.to_f / original.rows.to_f) * original.columns.to_f).to_i
+			end
+
+			thumb = original.resize(x, y)
+			original.destroy! # mem leak protection
+				
+			thumb = thumb.crop!(Magick::CenterGravity, MAX_X, MAX_Y)
+			ret = thumb.write(tmp) { self.quality = MAX_QUALITY }
+			thumb.destroy! # mem leak protection
+		rescue Exception => e
+			puts "\t** Exception while creating image from #{file}:"
+			puts "\t** #{e.to_s}"
+		end
+
+		contents = File.open(tmp).read
+		File.unlink(tmp)
+
+		contents
+	end
 end

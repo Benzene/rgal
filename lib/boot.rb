@@ -9,8 +9,8 @@ THUMB_Y = 200
 THUMB_QUALITY = 50
 
 # max picture size for slideshow
-MAX_X = 1650
-MAX_Y = 1050
+MAX_X = 1600
+MAX_Y = 800
 MAX_QUALITY = 80
 
 ### Do not change below
