@@ -39,3 +39,33 @@ a {
 a:hover {
 	text-decoration: underline;
 }
+
+/*
+ * menu
+ */
+
+#menu {
+	top: 100px;
+	position: fixed;
+	width: 100px;
+}
+
+#menu ul {
+	list-style: none;
+	padding: 0;
+	margin: 0 0 20px 0;
+}
+
+#menu li.spacer {
+	height: 10px;
+}
+
+#menu li a {
+	border: 1px solid #fff;
+	display: block;
+}
+
+#menu li a:hover {
+	background: #fff;
+	color: #000;
+}

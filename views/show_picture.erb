@@ -1,3 +1,18 @@
+<div id="menu">
+	<ul>
+		<% unless @picture.next.nil? %>
+			<li><a href="/<%= @picture.album.id %>/<%= @picture.next.id %>/">Next</a></li>
+		<% end %>
+		<% unless @picture.previous.nil? %>
+			<li><a href="/<%= @picture.album.id %>/<%= @picture.previous.id %>/">Previous</a></li>
+		<% end %>
+		<li class="spacer"></li>
+		<li><a href="/<%= @picture.album.id %>/">Album</a></li>
+		<li class="spacer"></li>
+		<li><a href="/">Index</a></li>
+	</ul>
+</div>
+
 <% unless @picture.next.nil? %>
 	<a href="/<%= @picture.album.id %>/<%= @picture.next.id %>/">
 <% else %>
