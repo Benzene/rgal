@@ -2,15 +2,24 @@ body {
 	font: 12px Arial;
 	margin: 0;
 	padding: 0;
+	text-align: center;
+}
+
+.pictures {
+	margin: 0 auto;
+	width: 1250px;
 }
 
 .picture {
-	width: 300px;
+	width: 250px;
 	float: left;
+	text-align: center;
 }
 
 .picture img {
 	display: block;
+	width: 200px;
+	margin: 0 auto;
 }
 
 .clear {
