@@ -15,6 +15,10 @@ class Picture < ActiveRecord::Base
 	def filepath
 		Pathname.new("#{album.realpath}/#{file}").realpath
 	end
+
+	def urlpath
+		"/data/#{album.path}/#{file}"
+	end
 	
 	def generate_hash
 		self.filehash = Picture.get_hash(filepath)

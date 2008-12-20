@@ -2,8 +2,11 @@
 
 <h2><%= @album.name %></h2>
 
-<ul>
-<% for picture in @album.pictures %>
-<li><%= picture.name %></li>
-<% end %>
-</ul>
+<div class="pictures">
+	<% for picture in @album.pictures %>
+		<div class="image">
+			<img src="<%= picture.urlpath %>" width="200" />
+			<%= picture.name %>
+		</div>
+	<% end %>
+</div>
