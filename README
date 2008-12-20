@@ -6,3 +6,9 @@
 * sinatra
 * mongrel
 * rmagick
+
+== Usage ==
+
+* Put albums of images in the data/ folder.
+* Run ./checker.rb which will add them to the database and generate thumbnails.
+* Run ./runner.rb which will setup the web interface and go to http://localhost:4567/.
