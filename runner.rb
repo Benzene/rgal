@@ -23,13 +23,14 @@ get '/:album/:picture/' do
 	erb :show_picture
 end
 
-get '/:album/:picture/:size/' do
-	content_type 'image/jpeg'
-	
-	case params[:size]
-	when 'm'	
-		@picture = Picture.find_by_id_and_album_id(params[:picture], params[:album])
-		@picture.get_max
-	else
-	end
+get '/:album/:picture/m/' do
+	content_type 'image/jpeg'	
+	@picture = Picture.find_by_id_and_album_id(params[:picture], params[:album])
+	@picture.get_max
+end
+
+get '/:album/:picture/s/' do
+	@picture = Picture.find_by_id_and_album_id(params[:picture], params[:album])
+	@title = "#{@picture.name} - #{@picture.album.name}"
+	erb :show_picture_slideshow
 end
