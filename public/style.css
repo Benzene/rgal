@@ -1,8 +1,8 @@
 body {
 	font: 12px Arial;
-	margin: 0;
-	padding: 0;
 	text-align: center;
+	background: #000;
+	color: #fff;
 }
 
 img {
@@ -29,4 +29,13 @@ img {
 .clear {
 	margin-bottom: 10px;
 	clear: both;
+}
+
+a {
+	text-decoration: none;
+	color: #fff;
+}
+
+a:hover {
+	text-decoration: underline;
 }

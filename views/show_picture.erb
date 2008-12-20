@@ -1,7 +1,3 @@
-<h1>Show Picture</h1>
-
-<h2><%= @picture.name %></h2>
-
 <% unless @picture.next.nil? %>
 	<a href="/<%= @picture.album.id %>/<%= @picture.next.id %>/">
 <% else %>
