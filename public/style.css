@@ -5,6 +5,10 @@ body {
 	text-align: center;
 }
 
+img {
+	border: none;
+}
+
 .pictures {
 	margin: 0 auto;
 	width: 1250px;
