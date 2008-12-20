@@ -17,6 +17,9 @@ Dir["#{DATA}/*"].each do |album|
 	
 	Dir["#{DATA}/#{name}/*"].each do |picture|
 		name = File.basename(picture)
+	
+		next if name == "thumbs"
+
 		p = Picture.find_by_album_id_and_name(a, name)
 		
 		if p
@@ -24,6 +27,7 @@ Dir["#{DATA}/*"].each do |album|
 				puts "   > File changed '#{name}'"
 			
 				p.generate_hash
+				p.generate_thumbnail
 				p.save
 				
 				changes = changes + 1
@@ -32,6 +36,7 @@ Dir["#{DATA}/*"].each do |album|
 			puts "   > New picture '#{name}'"
 			
 			p = Picture.new(name, a)
+			p.generate_thumbnail
 			p.save
 			
 			changes = changes + 1
