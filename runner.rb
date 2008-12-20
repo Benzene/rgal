@@ -7,16 +7,19 @@ require 'sinatra'
 
 get '/' do
 	@albums = Album.find(:all)
+	@title = "Albums"
 	erb :list_albums
 end
 
 get '/:album/' do
 	@album = Album.find_by_id(params[:album])
+	@title = @album.name
 	erb :show_album
 end
 
 get '/:album/:picture/' do
 	@picture = Picture.find_by_id_and_album_id(params[:picture], params[:album])
+	@title = "#{@picture.name} - #{@picture.album.name}"
 	erb :show_picture
 end
 
