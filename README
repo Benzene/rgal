@@ -1,0 +1,7 @@
+== Required Gems ==
+
+* sqlite3-ruby
+* activerecord
+* rack
+* sinatra
+* mongrel
