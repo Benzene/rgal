@@ -3,8 +3,18 @@
 <h2><%= @album.name %></h2>
 
 <div class="pictures">
-	<% for picture in @album.pictures %>
-		<div class="image">
+	<%
+		i = 0
+		for picture in @album.pictures
+			i = i + 1
+			if i > 5
+	%>
+			<div class="clear"></div>
+	<%
+				i = 1
+			end
+	%>
+		<div class="picture">
 			<img src="<%= picture.urlpath %>" width="200" />
 			<%= picture.name %>
 		</div>
