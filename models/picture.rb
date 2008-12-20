@@ -82,18 +82,24 @@ class Picture < ActiveRecord::Base
 			# resize to MAX_X x MAX_Y and save as quality MAX_QUALITY
 			original = Magick::ImageList.new(filepath) { self.size = "#{MAX_X}x#{MAX_Y}" }
 
-			if original.columns < original.rows
-				x = MAX_X
-				y = ((x.to_f / original.columns.to_f) * original.rows.to_f).to_i
+			thumb = original.change_geometry!("#{MAX_X}x#{MAX_Y}") { |cols, rows, img| img.resize(cols, rows) }
+			original.destroy! # mem leak protection
+
+			if thumb.columns < MAX_X
+				x = thumb.columns
 			else
-				y = MAX_Y
-				x = ((y.to_f / original.rows.to_f) * original.columns.to_f).to_i
+				x = MAX_X
 			end
 
-			thumb = original.resize(x, y)
-			original.destroy! # mem leak protection
-				
-			thumb = thumb.crop!(Magick::CenterGravity, MAX_X, MAX_Y)
+			if thumb.rows < MAX_Y
+				y = thumb.rows
+			else
+				y = MAX_Y
+			end
+ 
+			thumb = thumb.crop!(Magick::CenterGravity, x, y)
+			puts "#{thumb.columns}x#{thumb.rows}"
+
 			ret = thumb.write(tmp) { self.quality = MAX_QUALITY }
 			thumb.destroy! # mem leak protection
 		rescue Exception => e
