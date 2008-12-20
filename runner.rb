@@ -21,12 +21,12 @@ get '/:album/:picture/' do
 end
 
 get '/:album/:picture/:size/' do
-	@picture = Picture.find_by_id_and_album_id(params[:picture], params[:album])
-
+	content_type 'image/jpeg'
+	
 	case params[:size]
 	when 'm'	
-		send_data @picture.get_max, :type => 'image/jpeg', :disposition => 'inline'
+		@picture = Picture.find_by_id_and_album_id(params[:picture], params[:album])
+		@picture.get_max
 	else
-		send_file @picture.thumb, :disposition => 'inline'
 	end
 end
