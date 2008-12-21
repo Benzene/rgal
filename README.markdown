@@ -1,8 +1,8 @@
-= rGal
+# rGal
 
 rGal, a web based photo gallery written in Rails, using the Sinatra framework.
 
-== Required Gems
+## Required Gems
 
 * sqlite3-ruby
 * activerecord
@@ -11,7 +11,7 @@ rGal, a web based photo gallery written in Rails, using the Sinatra framework.
 * mongrel
 * rmagick
 
-== Usage
+## Usage
 
 * Put albums of images in the <tt>data/</tt> folder.
 * Run <tt>./checker.rb</tt> which will add them to the database and generate thumbnails.
