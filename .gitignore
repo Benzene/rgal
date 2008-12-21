@@ -1,4 +1,4 @@
 .DS*
 *.db
-data/*
+data
 *.log
