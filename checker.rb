@@ -2,6 +2,9 @@
 
 require 'lib/boot'
 
+puts "== Checking files"
+puts
+
 Dir["#{DATA}/*"].each do |album|
 	name = File.basename(album)
 	puts ">> Album '#{name}'"
@@ -43,6 +46,20 @@ Dir["#{DATA}/*"].each do |album|
 		end
 	end
 	
-	puts "== #{changes} change(s)"
+	puts "-- #{changes} change(s)"
 	puts
+end
+
+puts "== Checking database integrity"
+puts
+
+albums = Album.find(:all)
+
+for album in albums
+	if album.pictures.count == 0
+		puts ">> Album '#{album.name}'"
+		puts "   > Empty, removing"
+		Album.destroy(album)
+		next
+	end
 end
