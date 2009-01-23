@@ -15,12 +15,17 @@ MAX_QUALITY = 100
 
 ### Do not change below
 
-ROOT = Pathname.new('.').realpath
-DATA = Pathname.new('data/').realpath
+DATA_PATH = Pathname.new('database.db')
 
-if not File.exists?(DATA)
-	Dir.mkdir(DATA)
+unless DATA_PATH.exist?
+	fail "Data path `#{DATA_PATH}' does not exist!"
 end
+
+unless DATA_PATH.directory?
+	fail "Data path `#{DATA_PATH}' is not a directory!"
+end
+
+DATA = DATA_PATH.realpath
 
 # setup db
 require 'lib/db'
