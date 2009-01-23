@@ -15,7 +15,7 @@ MAX_QUALITY = 100
 
 ### Do not change below
 
-DATA_PATH = Pathname.new('database.db')
+DATA_PATH = Pathname.new('data/')
 
 unless DATA_PATH.exist?
 	fail "Data path `#{DATA_PATH}' does not exist!"
