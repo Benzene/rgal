@@ -11,6 +11,10 @@ class Album < ActiveRecord::Base
 		DATA_PATH + read_attribute(:path)
 	end
 	
+	def rel_path
+		read_attribute(:path)
+	end
+	
 	def path=(path)
 		write_attribute(:path, path.relative_path_from(DATA_PATH))
 	end

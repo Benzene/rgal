@@ -10,15 +10,24 @@ class Picture < ActiveRecord::Base
 	before_create :generate_hash
 	
 	def initialize(file, album)
-		super(:name => file, :file => file, :album => album)
+		name = file.basename
+		super(:name => name, :file => file, :album => album)
 	end
 	
-	def filepath
-		Pathname.new("#{album.realpath}/#{file}").realpath
+	def file
+		album.path + read_attribute(:file)
+	end
+	
+	def file=(file)
+		write_attribute(:file, file.relative_path_from(album.path))
+	end
+	
+	def filename
+		file.basename
 	end
 
 	def fileurl
-		"/data/#{album.path}/#{file}"
+		"/data/#{album.rel_path}/#{filename}"
 	end
 	
 	def generate_hash
@@ -30,40 +39,40 @@ class Picture < ActiveRecord::Base
 	end
 
 	def thumb
-		"#{album.realpath}/thumbs/th_#{file}"
+		album.path + "thumbs/th_#{filename}"
 	end
 
 	def thumburl
-		"/data/#{album.path}/thumbs/th_#{file}"
+		"/data/#{album.rel_path}/thumbs/th_#{filename}"
 	end
 
 	def previous
 		Picture.find :first,
-				:conditions => ["file < ? and album_id = ?", file, album.id],
+				:conditions => ["file < ? and album_id = ?", filename, album.id],
 				:order => 'file DESC'
 	end
 
 	def next
 		Picture.find :first,
-				:conditions => ["file > ? and album_id = ?", file, album.id],
+				:conditions => ["file > ? and album_id = ?", filename, album.id],
 				:order => 'file ASC'
 	end
 
 	def generate_thumbnail
-		begin
-			thumb_dir = Pathname.new("#{album.realpath}/thumbs/").realpath
-		rescue
-			# create thumb dir if it doesn't exist, and recreate variable
-			Dir.mkdir("#{album.realpath}/thumbs/")
-
-			thumb_dir = Pathname.new("#{album.realpath}/thumbs/").realpath
+		thumb_dir = album.path + 'thumbs'
+		
+		puts thumb_dir
+		
+		# create thumb dir if it doesn't exist
+		unless thumb_dir.exist?
+			thumb_dir.mkdir
 		end
 		
-		thumb_file = "#{thumb}"
+		thumb_file = thumb
 
 		begin
 			# resize to THUMB_X x THUMB_Y and save as quality THUMB_QUALITY
-			original = Magick::ImageList.new(filepath) { self.size = "#{THUMB_X}x#{THUMB_Y}" }
+			original = Magick::ImageList.new(file) { self.size = "#{THUMB_X}x#{THUMB_Y}" }
 
 			if original.columns < original.rows
 				x = THUMB_X
@@ -80,7 +89,7 @@ class Picture < ActiveRecord::Base
 			ret = thumb.write(thumb_file) { self.quality = THUMB_QUALITY }
 			thumb.destroy! # mem leak protection
 		rescue Exception => e
-			puts "\t** Exception while creating image from #{file}:"
+			puts "\t** Exception while creating image from #{file.basename}:"
 			puts "\t** #{e.to_s}"
 		end
 
@@ -88,11 +97,11 @@ class Picture < ActiveRecord::Base
 	end
 
 	def get_max
-		tmp = "#{album.realpath}/thumbs/m_#{file}.jpg"
+		tmp = album.path + "thumbs/m_#{filename}.jpg"
 
 		begin
 			# resize to MAX_X x MAX_Y and save as quality MAX_QUALITY
-			original = Magick::ImageList.new(filepath) { self.size = "#{MAX_X}x#{MAX_Y}" }
+			original = Magick::ImageList.new(file) { self.size = "#{MAX_X}x#{MAX_Y}" }
 
 			thumb = original.change_geometry!("#{MAX_X}x#{MAX_Y}") { |cols, rows, img| img.resize(cols, rows) }
 			original.destroy! # mem leak protection
