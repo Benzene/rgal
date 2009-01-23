@@ -61,8 +61,6 @@ class Picture < ActiveRecord::Base
 	def generate_thumbnail
 		thumb_dir = album.path + 'thumbs'
 		
-		puts thumb_dir
-		
 		# create thumb dir if it doesn't exist
 		unless thumb_dir.exist?
 			thumb_dir.mkdir
