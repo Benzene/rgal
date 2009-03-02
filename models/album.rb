@@ -3,7 +3,7 @@ class Album < ActiveRecord::Base
 	validates_presence_of :name, :path
 	
 	def initialize(path)
-		name = path.basename
+		name = path.basename.to_s
 		super(:path => path, :name => name)
 	end
 	
@@ -11,11 +11,16 @@ class Album < ActiveRecord::Base
 		DATA_PATH + read_attribute(:path)
 	end
 	
+	def path=(path)
+		write_attribute(:path, path.relative_path_from(DATA_PATH))
+	end
+	
 	def rel_path
 		read_attribute(:path)
 	end
 	
-	def path=(path)
-		write_attribute(:path, path.relative_path_from(DATA_PATH))
+	def self.find_by_real_path(path)
+		rel_path = path.relative_path_from(DATA_PATH)
+		Album.find_by_path(rel_path.to_s)
 	end
 end

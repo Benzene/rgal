@@ -10,7 +10,7 @@ class Picture < ActiveRecord::Base
 	before_create :generate_hash
 	
 	def initialize(file, album)
-		name = file.basename
+		name = file.basename.to_s
 		super(:name => name, :file => file, :album => album)
 	end
 	
@@ -31,7 +31,7 @@ class Picture < ActiveRecord::Base
 	end
 	
 	def generate_hash
-		self.filehash = Picture.get_hash(filepath)
+		self.filehash = Picture.get_hash(file)
 	end
 	
 	def self.get_hash(file)
@@ -48,13 +48,13 @@ class Picture < ActiveRecord::Base
 
 	def previous
 		Picture.find :first,
-				:conditions => ["file < ? and album_id = ?", filename, album.id],
+				:conditions => ["file < ? and album_id = ?", filename.to_s, album.id],
 				:order => 'file DESC'
 	end
 
 	def next
 		Picture.find :first,
-				:conditions => ["file > ? and album_id = ?", filename, album.id],
+				:conditions => ["file > ? and album_id = ?", filename.to_s, album.id],
 				:order => 'file ASC'
 	end
 
@@ -129,5 +129,9 @@ class Picture < ActiveRecord::Base
 		File.unlink(tmp)
 
 		contents
+	end
+	
+	def self.is_picture?(name)
+		name =~ /\.(jpg|jpeg|png)$/i
 	end
 end
