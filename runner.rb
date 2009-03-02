@@ -3,6 +3,9 @@
 require 'rubygems'
 $:.unshift File.dirname(__FILE__) + '/sinatra/lib'
 require 'sinatra'
+require 'lib/rack-basic_cache'
+
+use Rack::BasicCache
 
 require 'lib/boot'
 
