@@ -1,9 +1,10 @@
 #!/usr/bin/env ruby
 
-require 'lib/boot'
-
+require 'rubygems'
 $:.unshift File.dirname(__FILE__) + '/sinatra/lib'
 require 'sinatra'
+
+require 'lib/boot'
 
 get '/' do
 	@albums = Album.find(:all)

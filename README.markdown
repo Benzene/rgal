@@ -6,8 +6,8 @@ rGal, a web based photo gallery written in Rails, using the Sinatra framework.
 
 * sqlite3-ruby
 * activerecord
-* rack (0.4.0)
-* sinatra (0.3.3)
+* rack (0.9.1)
+* sinatra (0.9.0.4)
 * mongrel
 * rmagick
 

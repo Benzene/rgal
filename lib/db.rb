@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'activerecord'
 
 ActiveRecord::Base.establish_connection(
