@@ -61,7 +61,6 @@ end
 
 process_dir(DATA_PATH)
 
-=begin
 puts "== Checking database integrity"
 puts
 
@@ -75,4 +74,3 @@ for album in albums
 		next
 	end
 end
-=end
