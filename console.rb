@@ -1,3 +1,3 @@
 #!/usr/bin/env ruby
 
-exec "irb -r lib/boot"
+exec "irb -r rubygems -r lib/boot"
