@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'rubygems'
 require 'lib/boot'
 
 puts "== Checking files"
@@ -16,10 +17,10 @@ def process_dir(parent, a = nil)
 			p = Picture.find_by_album_id_and_name(a, name)
 			
 			if p
-				if Picture.get_hash(file) != p.filehash
+				if Picture.get_mtime(file) != p.mtime
 					puts "   > File changed '#{name}'"
 				
-					p.generate_hash
+					p.generate_time
 					p.generate_thumbnail
 					p.save
 					
@@ -60,6 +61,7 @@ end
 
 process_dir(DATA_PATH)
 
+=begin
 puts "== Checking database integrity"
 puts
 
@@ -73,3 +75,4 @@ for album in albums
 		next
 	end
 end
+=end

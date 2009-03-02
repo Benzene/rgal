@@ -4,10 +4,10 @@ require 'RMagick'
 class Picture < ActiveRecord::Base
 	belongs_to :album
 	
-	validates_presence_of :name, :file, :hash, :album
+	validates_presence_of :name, :file, :mtime, :album
 	validates_associated :album
 	
-	before_create :generate_hash
+	before_create :generate_mtime
 	
 	def initialize(file, album)
 		name = file.basename.to_s
@@ -30,12 +30,12 @@ class Picture < ActiveRecord::Base
 		"/data/#{album.rel_path}/#{filename}"
 	end
 	
-	def generate_hash
-		self.filehash = Picture.get_hash(file)
+	def generate_mtime
+		self.mtime = Picture.get_mtime(file)
 	end
 	
-	def self.get_hash(file)
-		Digest::SHA1.hexdigest(File.open(file, 'r').read)
+	def self.get_mtime(file)
+		File.mtime(file).to_i
 	end
 
 	def thumb
@@ -132,6 +132,6 @@ class Picture < ActiveRecord::Base
 	end
 	
 	def self.is_picture?(name)
-		name =~ /\.(jpg|jpeg|png)$/i
+		name =~ /^[^\.]*\.(jpg|jpeg|png)$/i
 	end
 end
