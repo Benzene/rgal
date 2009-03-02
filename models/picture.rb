@@ -19,7 +19,7 @@ class Picture < ActiveRecord::Base
 	end
 	
 	def file=(file)
-		write_attribute(:file, file.relative_path_from(album.path))
+		write_attribute(:file, file.relative_path_from(album.path).to_s)
 	end
 	
 	def filename

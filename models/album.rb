@@ -12,7 +12,7 @@ class Album < ActiveRecord::Base
 	end
 	
 	def path=(path)
-		write_attribute(:path, path.relative_path_from(DATA_PATH))
+		write_attribute(:path, path.relative_path_from(DATA_PATH).to_s)
 	end
 	
 	def rel_path
