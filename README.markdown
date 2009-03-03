@@ -1,6 +1,6 @@
 # rGal
 
-rGal, a web based photo gallery written in Rails, using the Sinatra framework.
+rGal, a web based photo gallery written in Ruby, using the Sinatra framework.
 
 ## Required Gems
 
@@ -10,6 +10,7 @@ rGal, a web based photo gallery written in Rails, using the Sinatra framework.
 * sinatra (0.9.0.4)
 * mongrel
 * rmagick
+* haml
 
 ## Usage
 

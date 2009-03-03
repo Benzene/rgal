@@ -1,0 +1,12 @@
+%h1
+  = @album.name
+#menu
+  :markdown
+    * [Slideshow](/#{@album.id}/#{@album.pictures.first.id}/s/)
+    * [Index](/)
+
+.pictures
+  - @album.pictures.each do |picture|
+    .picture
+      %a{:href => "/#{@album.id}/#{picture.id}/"}
+        %img{:src => picture.thumburl}

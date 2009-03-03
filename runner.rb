@@ -37,7 +37,7 @@ end
 get '/:album/' do
 	@album = Album.find_by_id(params[:album])
 	@title = @album.name
-	erb :show_album
+	haml :show_album
 end
 
 post '/:album/e' do
