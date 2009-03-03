@@ -10,9 +10,17 @@ use Rack::BasicCache
 require 'lib/boot'
 
 get '/' do
-	@albums = Album.find(:all)
+	@tags = Tag.find(:all)
+	@albums = Album.find_untagged
 	@title = "Albums"
-	erb :list_albums
+	erb :index
+end
+
+get '/t/:tag/' do
+	@tag = Tag.find_by_id(params[:tag])
+	@title = @tag.name
+	@albums = @tag.albums
+	erb :show_tag
 end
 
 get '/:album/' do

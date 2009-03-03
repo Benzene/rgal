@@ -1,0 +1,30 @@
+<h1>Tag <%= @tag.name %></h1>
+
+<div id="menu">
+	<ul>
+		<li><a href="/">Index</a></li>
+        </ul>
+</div>
+
+
+<div class="pictures">
+	<%
+		i = 0
+		for album in @albums
+			i = i + 1
+			if i > 5
+	%>
+			<div class="clear"></div>
+	<%
+				i = 1
+			end
+	%>
+		<div class="picture">
+			<a href="/<%= album.id %>/">
+				<img src="<%= album.pictures.first.thumburl %>" />
+				<%= album.name %>
+			</a>
+		</div>
+	<% end %>
+	<div class="clear"></div>
+</div>

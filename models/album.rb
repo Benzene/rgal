@@ -26,4 +26,11 @@ class Album < ActiveRecord::Base
 		rel_path = path.relative_path_from(DATA_PATH)
 		Album.find_by_path(rel_path.to_s)
 	end
+
+	def self.find_untagged
+		a = Album.find(:all)
+		a.reject! do |al|
+			not al.tags.empty?
+		end
+	end
 end
