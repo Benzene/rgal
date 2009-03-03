@@ -9,6 +9,11 @@ img {
 	border: none;
 }
 
+.tags {
+	margin: 0 auto 20px auto;
+	width: 1000px;
+}
+
 .pictures {
 	margin: 0 auto;
 	width: 1250px;

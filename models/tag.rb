@@ -3,4 +3,9 @@ class Tag < ActiveRecord::Base
 
 	validates_presence_of :name
 	validates_uniqueness_of :name, :case_senesitive => :false
+	validates_format_of :name, :with => /[a-z\.]/
+
+	def self.find_all
+		Tag.find(:all, :order => 'name ASC')
+	end
 end
