@@ -1,5 +1,8 @@
 class Album < ActiveRecord::Base
 	has_many :pictures, :order => 'name ASC'
+
+	has_and_belongs_to_many :tags
+
 	validates_presence_of :name, :path
 	
 	def initialize(path)
