@@ -40,6 +40,17 @@ get '/:album/' do
 	erb :show_album
 end
 
+post '/:album/e' do
+	@album = Album.find_by_id(params[:album])
+
+	if params[:id] == 'name'
+		@album.name = params[:value]
+		@album.save
+	end
+
+	@album.name
+end
+
 get '/:album/:picture/' do
 	@picture = Picture.find_by_id_and_album_id(params[:picture], params[:album])
 	@title = "#{@picture.name} - #{@picture.album.name}"
