@@ -26,8 +26,6 @@ end
 post '/t/:tag/e' do
 	@tag = Tag.find_by_id(params[:tag])
 
-	puts params.inspect
-
 	if params[:id] == 'name'
 		@tag.name = Tag.tagify_name params[:value]
 		@tag.save
