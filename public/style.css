@@ -14,6 +14,11 @@ img {
 	width: 1000px;
 }
 
+h1 {
+	margin: 0 auto;
+	width: 400px;
+}
+
 .pictures {
 	margin: 0 auto;
 	width: 1250px;
@@ -73,4 +78,13 @@ a:hover {
 #menu li a:hover {
 	background: #fff;
 	color: #000;
+}
+
+/*
+ * form
+ */
+
+input {
+	font-size: 14px;
+	padding: 3px;
 }

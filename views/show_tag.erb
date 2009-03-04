@@ -1,4 +1,14 @@
-<h1>Tag <%= @tag.name %></h1>
+<h1 id="name"><%= @tag.name %></h1>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		console.log('woop');	
+		$("h1").editable("/t/<%= @tag.id %>/e", { 
+			tooltip : "Click to edit...",
+			onblur : 'submit',
+		});
+	});
+</script>
 
 <div id="menu">
 	<ul>
