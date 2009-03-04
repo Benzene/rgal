@@ -50,8 +50,14 @@ def process_dir(parent, a = nil)
 				puts "   > New"
 				sub_a = Album.new(file)
 				sub_a.save
+
+				# add tags
+				unless a.nil?
+					sub_a.tags << a.tags
+					sub_a.tags << Tag.find_or_create(a.name)
+				end
 			end
-			
+
 			changes = process_dir(file, sub_a)
 		end
 	end
