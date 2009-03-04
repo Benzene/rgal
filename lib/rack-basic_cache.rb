@@ -17,6 +17,7 @@ module Rack
 		protected
 
 		def can_cache(env, res)
+			(env['REQUEST_PATH'] =~ /^\/(data|public)\//) or return false
 			(env['REQUEST_METHOD'] == 'GET' || env['REQUEST_METHOD'] == 'HEAD') or return false
 			(env['QUERY_STRING'].length == 0) or return false
 			(res[0] == 200) or return false
