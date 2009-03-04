@@ -20,7 +20,7 @@ def process_dir(parent, a = nil)
 				if Picture.get_mtime(file) != p.mtime
 					puts "   > File changed '#{name}'"
 				
-					p.generate_time
+					p.generate_mtime
 					p.generate_thumbnail
 					p.save
 					
