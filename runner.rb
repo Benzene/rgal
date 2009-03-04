@@ -26,14 +26,12 @@ end
 post '/t/:tag/e' do
 	@tag = Tag.find_by_id(params[:tag])
 
-	if params[:id] == 'name'
-		@tag.name = Tag.tagify_name params[:value]
-		@tag.save
-
-		return @tag.name
+	unless params[:name].nil?
+		@tag = @tag.update_name(params[:name])
 	end
-
-	return params[:value]
+	
+	# return json
+	"{id: #{@tag.id}, url: '/t/#{@tag.id}/'}"
 end
 
 get '/:album/' do

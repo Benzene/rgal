@@ -2,8 +2,16 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		console.log('woop');	
-		$("h1").editable("/t/<%= @tag.id %>/e", { 
+		$("h1").editable(function(value, settings) {
+			$.post("/t/<%= @tag.id %>/e", { name: value }, function(data) {
+				if (data.id != <%= @tag.id %>)
+				{
+					window.location = data.url;
+				}
+			}, "json");
+
+			return value;
+  		}, {
 			tooltip : "Click to edit...",
 			onblur : 'submit',
 		});
