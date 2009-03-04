@@ -1,7 +1,7 @@
 class Album < ActiveRecord::Base
 	has_many :pictures, :order => 'name ASC'
 
-	has_and_belongs_to_many :tags
+	has_and_belongs_to_many :tags, :uniq => true
 
 	validates_presence_of :name, :path
 	
