@@ -8,4 +8,12 @@ class Tag < ActiveRecord::Base
 	def self.find_all
 		Tag.find(:all, :order => 'name ASC')
 	end
+
+	def self.find_or_create(name)
+		begin
+			Tag.find_by_name!(name)
+		rescue
+			Tag.create(:name => name)
+		end
+	end
 end
