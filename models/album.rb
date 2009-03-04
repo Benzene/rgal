@@ -28,7 +28,7 @@ class Album < ActiveRecord::Base
 	end
 
 	def self.find_untagged
-		a = Album.find(:all)
+		a = Album.find(:all, :order => 'id DESC')
 		a.reject! do |al|
 			not al.tags.empty?
 		end
