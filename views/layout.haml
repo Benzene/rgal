@@ -2,6 +2,11 @@
   %head
     %title
       = @title || ''
-    %link{:rel => 'stylesheet', :href => '/style.css'}
+      
+    %link{ :rel => 'stylesheet', :href => '/style.css' }
+    
+    - ['jquery', 'jquery.jeditable'].each do |js|
+      %script{ :type => 'text/javascript', :src => '/' + js + '.js' }
+      
   %body
     = yield
