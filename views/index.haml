@@ -2,7 +2,7 @@
 
 .tags
   - for tag in @tags
-    %a{ :href => "/t/#{tag.id}", :title => tag.albums.count}
+    %a{ :href => "/t/#{tag.id}/", :title => tag.albums.count}
       = tag.name
 
 .pictures
