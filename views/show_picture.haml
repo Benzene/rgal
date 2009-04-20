@@ -1,0 +1,27 @@
+#menu
+  %ul
+    - unless @picture.next.nil?
+      %li
+        %a{ :href => "/#{@picture.album.id}/#{@picture.next.id}/" }
+          Next
+      
+    - unless @picture.previous.nil?
+      %li
+        %a{ :href => "/#{@picture.album.id}/#{@picture.previous.id}/" }
+          Previous
+
+    %li
+      %a{ :href => "/#{@picture.album.id}/#{@picture.album.pictures.first.id}/s/" }
+        Slideshow
+      
+    %li
+      %a{ :href => "/#{@picture.album.id}/#{@picture.album.pictures.first.id}/" }
+        Album
+        
+    %li
+      %a{ :href => '/' }
+        Index
+
+- url = "/#{@picture.album.id}/" + (@picture.next.nil? ? '' : "#{@picture.next.id}/")
+%a{ :href => url }
+  %img{ :src => "/#{@picture.album.id}/#{@picture.id}/m/" }

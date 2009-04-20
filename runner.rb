@@ -13,7 +13,7 @@ get '/' do
 	@tags = Tag.find_all
 	@albums = Album.find_untagged
 	@title = "Albums"
-	erb :index
+	haml :index
 end
 
 get '/t/:tag/' do
@@ -54,7 +54,7 @@ end
 get '/:album/:picture/' do
 	@picture = Picture.find_by_id_and_album_id(params[:picture], params[:album])
 	@title = "#{@picture.name} - #{@picture.album.name}"
-	erb :show_picture
+	haml :show_picture
 end
 
 get '/:album/:picture/m/' do
@@ -66,5 +66,5 @@ end
 get '/:album/:picture/s/' do
 	@picture = Picture.find_by_id_and_album_id(params[:picture], params[:album])
 	@title = "#{@picture.name} - #{@picture.album.name}"
-	erb :show_picture_slideshow
+	haml :show_picture_slideshow
 end
