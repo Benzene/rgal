@@ -1,0 +1,19 @@
+%h1 Index
+
+.tags
+  - for tag in @tags
+    %a{ :href => "/t/#{tag.id}", :title => tag.albums.count}
+      = tag.name
+
+.pictures
+  - i = 0
+  - for album in @albums
+    - i = i + 1
+    - if i > 5
+      .clear
+      - i = 1
+    
+    .picture
+      %a{ :href => "/#{album.id}/" }
+        %img{ :src => album.pictures.first.thumburl }
+        = album.name
