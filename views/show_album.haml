@@ -1,12 +1,30 @@
-%h1
-  = @album.name
+%h1= @album.name
+
 #menu
   :markdown
     * [Slideshow](/#{@album.id}/#{@album.pictures.first.id}/s/)
     * [Index](/)
 
 .pictures
-  - @album.pictures.each do |picture|
+  - i = 0
+  - for picture in @album.pictures
+    - i = i + 1
+    - if i > 5
+      .clear
+      - i = 1
+    
     .picture
       %a{:href => "/#{@album.id}/#{picture.id}/"}
         %img{:src => picture.thumburl}
+        = picture.name
+        
+:javascript
+  //<![CDATA[
+  $(document).ready(function() {
+    $("h1").editable("/#{@album.id}/e", {
+      tooltip : "Click to edit...",
+      onblur : 'submit'
+    });
+  });
+  //]]>
+
