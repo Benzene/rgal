@@ -20,7 +20,7 @@ get '/t/:tag/' do
 	@tag = Tag.find_by_id(params[:tag])
 	@title = @tag.name
 	@albums = @tag.albums
-	erb :show_tag
+	haml :show_tag
 end
 
 post '/t/:tag/e' do

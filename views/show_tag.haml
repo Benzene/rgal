@@ -1,0 +1,35 @@
+%h1= @tag.name
+
+#menu
+  :markdown
+    * [Index](/)
+
+.pictures
+  - i = 0
+  - for album in @tag.albums
+    - i = i + 1
+    - if i > 5
+      .clear
+      - i = 1
+    
+    .picture
+      %a{ :href => "/#{album.id}/" }
+        %img{ :src => album.pictures.first.thumburl }
+        = album.name
+
+:javascript
+  $(document).ready(function() {
+    $("h1").editable(function(value, settings) {
+      $.post("/t/#{@tag.id}/e", { name: value }, function(data) {
+        if (data.id != #{@tag.id})
+        {
+          window.location = data.url;
+        }
+      }, "json");
+
+      return value;
+      }, {
+      tooltip : "Click to edit...",
+      onblur : 'submit',
+    });
+  });
