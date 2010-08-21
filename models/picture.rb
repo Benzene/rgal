@@ -132,6 +132,6 @@ class Picture < ActiveRecord::Base
 	end
 	
 	def self.is_picture?(name)
-		name =~ /^[^\.]*\.(jpg|jpeg|png)$/i
+		name =~ /^.*\.(jpg|jpeg|png|JPG|JPEG|PNG)$/i
 	end
 end
