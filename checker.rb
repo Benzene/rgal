@@ -2,6 +2,8 @@
 
 require_relative 'lib/boot'
 
+include GalleryDB
+
 puts "== Checking files"
 puts
 
@@ -13,7 +15,7 @@ def process_dir(parent, a = nil)
 	
 		# if it is a file, and we have an album, process it as a picture
 		if file.file? and not a.nil? and Picture.is_picture?(name)
-			p = Picture.find_by_album_id_and_name(a, name)
+			p = Picture.first(:album => a , :name => name)
 			
 			if p
 				if Picture.get_mtime(file) != p.mtime
@@ -28,9 +30,8 @@ def process_dir(parent, a = nil)
 			else
 				puts "   > New picture '#{name}'"
 				
-				p = Picture.new(file, a)
+				p = Picture.new_picture(file, a)
 				p.generate_thumbnail
-				p.save
 				
 				changes = changes + 1
 			end
@@ -47,8 +48,7 @@ def process_dir(parent, a = nil)
 		
 			unless sub_a
 				puts "   > New"
-				sub_a = Album.new(file)
-				sub_a.save
+				sub_a = Album.new_album(file)
 
 				# add tags
 				unless a.nil?
@@ -69,13 +69,14 @@ process_dir(DATA_PATH)
 puts "== Checking database integrity"
 puts
 
-albums = Album.find(:all)
+albums = repository(:gallery) {Album.all}
 
 for album in albums
 	if album.pictures.count == 0
 		puts ">> Album '#{album.name}'"
 		puts "   > Empty, removing"
-		Album.destroy(album)
+		album.destroy
 		next
 	end
 end
+

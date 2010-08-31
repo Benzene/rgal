@@ -8,26 +8,29 @@ require 'sinatra'
 
 require_relative 'lib/boot'
 
-class Gallery < Sinatra::Application
+class Gallery < Sinatra::Base
+
+	include GalleryDB
 
 	set :root, File.dirname(__FILE__)
 	
 	get '/' do
 		@tags = Tag.find_all
-		@albums = Album.find_untagged
+#		@albums = Album.find_untagged
+		@albums = Album.all
 		@title = "Albums"
 		haml :index
 	end
 
 	get '/t/:tag/' do
-		@tag = Tag.find_by_id(params[:tag])
+		@tag = Tag.get(params[:tag])
 		@title = @tag.name
 		@albums = @tag.albums
 		haml :show_tag
 	end
 
 	post '/t/:tag/e' do
-		@tag = Tag.find_by_id(params[:tag])
+		@tag = Tag.get(params[:tag])
 
 		unless params[:name].nil?
 			@tag = @tag.update_name(params[:name])
@@ -38,13 +41,13 @@ class Gallery < Sinatra::Application
 	end
 
 	get '/:album/' do
-		@album = Album.find_by_id(params[:album])
+		@album = Album.get(params[:album])
 		@title = @album.name
 		haml :show_album
 	end
 
 	post '/:album/e' do
-		@album = Album.find_by_id(params[:album])
+		@album = Album.get(params[:album])
 
 		if params[:id] == 'name'
 			@album.name = params[:value]
@@ -55,19 +58,19 @@ class Gallery < Sinatra::Application
 	end
 
 	get '/:album/:picture/' do
-		@picture = Picture.find_by_id_and_album_id(params[:picture], params[:album])
+		@picture = Picture.first(:id => params[:picture], :album => {:id => params[:album]})
 		@title = "#{@picture.name} - #{@picture.album.name}"
 		haml :show_picture
 	end
 
 	get '/:album/:picture/m/' do
 		content_type 'image/jpeg'	
-		@picture = Picture.find_by_id_and_album_id(params[:picture], params[:album])
+		@picture = Picture.first(:id => params[:picture], :album => {:id => params[:album]})
 		@picture.get_max
 	end
 
 	get '/:album/:picture/s/' do
-		@picture = Picture.find_by_id_and_album_id(params[:picture], params[:album])
+		@picture = Picture.first(:id => params[:picture], :album => {:id => params[:album]})
 		@title = "#{@picture.name} - #{@picture.album.name}"
 		haml :show_picture_slideshow
 	end

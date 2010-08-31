@@ -1,13 +1,19 @@
-require 'activerecord'
+require 'dm-core'
+require 'dm-validations'
 
-ActiveRecord::Base.establish_connection(
-	:wait_timeout => 0.25,
-	:timeout => 250,
-	:adapter => 'sqlite3',
-	:database => 'database.db'
-)
+module GalleryDB
 
-ActiveRecord::Base.logger = Logger.new('db.log')
+DataMapper.setup(:gallery, 'sqlite3:///home/wilya/rgal/gallery.db' )
+#DataMapper.setup(:default, 'sqlite3:///home/wilya/rgal/gallery_def.db' )
 
-ActiveRecord::Migration.verbose = true
-ActiveRecord::Migrator.migrate('lib/migrate/')
+# include models
+require_relative '../models/album'
+require_relative '../models/picture'
+require_relative '../models/albumtag'
+require_relative '../models/tag'
+
+DataMapper.finalize
+
+DataMapper::Model.raise_on_save_failure = true
+
+end

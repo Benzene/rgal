@@ -1,22 +1,22 @@
-class Tag < ActiveRecord::Base
-	has_and_belongs_to_many :albums, :uniq => true
+module GalleryDB
+class Tag
+	def self.default_repository_name 
+		:gallery
+	end
 
-	validates_presence_of :name
-	validates_uniqueness_of :name, :case_senesitive => :false
-	validates_format_of :name, :with => /[a-z\.]/
+	include DataMapper::Resource
+
+	property :id, Serial
+	property :name, String, :required => true, :unique => true, :format => /[a-z\.]/
+	has n, :albums, :through => :albumtag, :unique => true
 
 	def self.find_all
-		Tag.find(:all, :order => 'name ASC')
+		Tag.all( :order => [:name.asc] )
 	end
 
 	def self.find_or_create(name)
 		name = tagify_name(name)
-
-		begin
-			Tag.find_by_name!(name)
-		rescue
-			Tag.create(:name => name)
-		end
+		Tag.first_or_create(:name => name)
 	end
 
 	def self.tagify_name(name)
@@ -31,10 +31,10 @@ class Tag < ActiveRecord::Base
 		
 		begin
 			# find tag
-			new = Tag.find_by_name!(name)
+			new = Tag.first!(:name => name)
 
 			# make sure the new tag isn't this
-			raise ActiveRecord::Exception if new == self
+			raise DataMapper::Exception if new == self
 			
 			# it exists, so move albums
 			new.albums = new.albums | self.albums
@@ -53,4 +53,5 @@ class Tag < ActiveRecord::Base
 			return self
 		end
 	end		
+end
 end

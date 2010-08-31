@@ -1,5 +1,10 @@
 require 'pathname'
+require 'rubygems'
 
+require_relative 'config'
+require_relative 'links'
+
+module GalleryDB
 ### Settings
 
 # thumbnail
@@ -15,7 +20,7 @@ MAX_QUALITY = 100
 
 ### Do not change below
 
-DATA_PATH = Pathname.new('data/')
+DATA_PATH = Pathname.new(File.dirname(__FILE__) + '/../data/')
 
 unless DATA_PATH.exist?
 	fail "Data path `#{DATA_PATH}' does not exist!"
@@ -30,7 +35,4 @@ DATA = DATA_PATH.realpath
 # setup db
 require_relative 'db'
 
-# include models
-Dir["models/*.rb"].each do |model|
-	require_relative '../' << model
 end

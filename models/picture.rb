@@ -1,33 +1,42 @@
 require 'digest/sha1'
 require 'RMagick'
 
-class Picture < ActiveRecord::Base
+module GalleryDB
+class Picture
+	def self.default_repository_name 
+		:gallery
+	end
+	
+	include DataMapper::Resource
+
+	property :id, Serial
+	property :name, String, :required => true
+	property :file, String, :required => true, :length => (0..100)
+	property :mtime, DateTime, :required => true
+	property :ctime, DateTime, :required => true
+
 	belongs_to :album
-	
-	validates_presence_of :name, :file, :mtime, :album
-	validates_associated :album
-	
-	before_create :generate_mtime
-	
-	def initialize(file, album)
+
+	def self.new_picture(file, album)
 		name = file.basename.to_s
-		super(:name => name, :file => file, :album => album)
-	end
-	
-	def file
-		album.path + read_attribute(:file)
-	end
-	
-	def file=(file)
-		write_attribute(:file, file.relative_path_from(album.path).to_s)
+		p = new(:name => name, :file => file, :album => album, :mtime => get_mtime(file), :ctime => get_mtime(file))
+		begin
+			p.save
+		rescue Exception => ex
+			puts ex
+			p.errors.each do |e|
+				puts e
+			end
+		end
+		p
 	end
 	
 	def filename
-		file.basename
+		Pathname.new(file).basename
 	end
 
 	def fileurl
-		"/data/#{album.rel_path}/#{filename}"
+		'/static' << $app_root << album.short_path << '/' << filename
 	end
 	
 	def generate_mtime
@@ -35,31 +44,31 @@ class Picture < ActiveRecord::Base
 	end
 	
 	def self.get_mtime(file)
-		File.mtime(file).to_i
+		File.mtime(file)
 	end
 
 	def thumb
-		album.path + "thumbs/th_#{filename}"
+		album.full_path << "/thumbs/th_#{filename}"
 	end
 
 	def thumburl
-		"/data/#{album.rel_path}/thumbs/th_#{filename}"
+		'/static' << $app_root << album.short_path << "/thumbs/th_#{filename}"
 	end
 
 	def previous
-		Picture.find :first,
+		Picture.first(
 				:conditions => ["file < ? and album_id = ?", filename.to_s, album.id],
-				:order => 'file DESC'
+				:order => [:file.desc])
 	end
 
 	def next
-		Picture.find :first,
+		Picture.first(
 				:conditions => ["file > ? and album_id = ?", filename.to_s, album.id],
-				:order => 'file ASC'
+				:order => [:file.asc])
 	end
 
 	def generate_thumbnail
-		thumb_dir = album.path + 'thumbs'
+		thumb_dir = Pathname.new(album.full_path + '/thumbs')
 		
 		# create thumb dir if it doesn't exist
 		unless thumb_dir.exist?
@@ -95,13 +104,13 @@ class Picture < ActiveRecord::Base
 	end
 
 	def get_max
-		tmp = album.path + "thumbs/m_#{filename}.jpg"
+		tmp = album.full_path + "/thumbs/m_#{filename}"
 
 		begin
 			# resize to MAX_X x MAX_Y and save as quality MAX_QUALITY
-			original = Magick::ImageList.new(file) { self.size = "#{MAX_X}x#{MAX_Y}" }
+			original = Magick::ImageList.new(file) { self.size = "#{GalleryDB::MAX_X}x#{GalleryDB::MAX_Y}" }
 
-			thumb = original.change_geometry!("#{MAX_X}x#{MAX_Y}") { |cols, rows, img| img.resize(cols, rows) }
+			thumb = original.change_geometry!("#{GalleryDB::MAX_X}x#{GalleryDB::MAX_Y}") { |cols, rows, img| img.resize(cols, rows) }
 			original.destroy! # mem leak protection
 
 			if thumb.columns < MAX_X
@@ -134,4 +143,5 @@ class Picture < ActiveRecord::Base
 	def self.is_picture?(name)
 		name =~ /^.*\.(jpg|jpeg|png|JPG|JPEG|PNG)$/i
 	end
+end
 end

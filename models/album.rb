@@ -1,36 +1,55 @@
-class Album < ActiveRecord::Base
-	has_many :pictures, :order => 'name ASC'
+module GalleryDB
 
-	has_and_belongs_to_many :tags, :uniq => true
+class Album
+	def self.default_repository_name 
+		:gallery
+	end
 
-	validates_presence_of :name, :path
+	include DataMapper::Resource
+
+	property :id, Serial
+	property :name, String, :required => true
+	property :path, String, :required => true
 	
-	def initialize(path)
-		name = path.basename.to_s
-		super(:path => path, :name => name)
-	end
-	
-	def path
-		DATA_PATH + read_attribute(:path)
-	end
-	
-	def path=(path)
-		write_attribute(:path, path.relative_path_from(DATA_PATH).to_s)
-	end
-	
-	def rel_path
-		read_attribute(:path)
+	has n, :pictures, :order => [:name.asc]
+
+	has n, :tags, :through => :albumtag, :unique => true
+
+	def self.new_album(newpath)
+		name = newpath.basename.to_s
+		begin
+			p = new(:name => name, :path => newpath)
+			puts p
+			p.save
+		rescue Exception => ex
+			puts "Saving failed :"
+			puts ex
+			p.errors.each do |e|
+				puts e
+			end
+		end
+		p
 	end
 	
 	def self.find_by_real_path(path)
-		rel_path = path.relative_path_from(DATA_PATH)
-		Album.find_by_path(rel_path.to_s)
+		Album.first(:path => path.to_s)
 	end
 
 	def self.find_untagged
-		a = Album.find(:all, :order => 'id DESC')
+		a = Album.all( :order => [:id.desc])
 		a.reject! do |al|
 			not al.tags.empty?
 		end
 	end
+	
+	def short_path
+		basepath = File.dirname(__FILE__).sub('/models','')
+		path.sub(basepath << '/lib/..' ,'')
+	end
+	
+	def full_path
+		path
+	end
+end
+
 end

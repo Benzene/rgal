@@ -3,10 +3,10 @@
     %title
       = @title || ''
       
-    %link{ :rel => 'stylesheet', :href => '/style.css' }
+    %link{ :rel => 'stylesheet', :href => '/static/gallery/style.css' }
     
     - ['jquery', 'jquery.jeditable'].each do |js|
-      %script{ :type => 'text/javascript', :src => '/' + js + '.js' }
+      %script{ :type => 'text/javascript', :src => '/static/gallery/' + js + '.js' }
       
   %body
     = yield

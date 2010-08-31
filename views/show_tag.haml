@@ -2,7 +2,7 @@
 
 #menu
   :markdown
-    * [Index](/)
+    * [Index](#{$app_root})
 
 .pictures
   - i = 0
@@ -13,14 +13,14 @@
       - i = 1
     
     .picture
-      %a{ :href => "/#{album.id}/" }
+      %a{ :href => "#{$app_root}/#{album.id}/" }
         %img{ :src => album.pictures.first.thumburl }
         = album.name
 
 :javascript
   $(document).ready(function() {
     $("h1").editable(function(value, settings) {
-      $.post("/t/#{@tag.id}/e", { name: value }, function(data) {
+      $.post("#{$app_root/t/#{@tag.id}/e", { name: value }, function(data) {
         if (data.id != #{@tag.id})
         {
           window.location = data.url;

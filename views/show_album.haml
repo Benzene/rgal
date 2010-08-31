@@ -2,8 +2,8 @@
 
 #menu
   :markdown
-    * [Slideshow](/#{@album.id}/#{@album.pictures.first.id}/s/)
-    * [Index](/)
+    * [Slideshow](#{$app_root}/#{@album.id}/#{@album.pictures.first.id}/s/)
+    * [Index](#{$app_root}/)
 
 .pictures
   - i = 0
@@ -14,14 +14,14 @@
       - i = 1
     
     .picture
-      %a{:href => "/#{@album.id}/#{picture.id}/"}
+      %a{:href => "#{$app_root}/#{@album.id}/#{picture.id}/"}
         %img{:src => picture.thumburl}
         = picture.name
         
 :javascript
   //<![CDATA[
   $(document).ready(function() {
-    $("h1").editable("/#{@album.id}/e", {
+    $("h1").editable("#{$app_root}/#{@album.id}/e", {
       tooltip : "Click to edit...",
       onblur : 'submit'
     });

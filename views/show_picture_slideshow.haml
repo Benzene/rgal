@@ -1,29 +1,29 @@
 #menu
   %ul
     %li
-      %a{ :href => "/#{@picture.album.id}/#{@picture.id}/" }
+      %a{ :href => "#{$app_root}/#{@picture.album.id}/#{@picture.id}/" }
         Pause
   
     - unless @picture.next.nil?
       %li
-        %a{ :href => "/#{@picture.album.id}/#{@picture.next.id}/" }
+        %a{ :href => "#{$app_root}/#{@picture.album.id}/#{@picture.next.id}/" }
           Next
       
     - unless @picture.previous.nil?
       %li
-        %a{ :href => "/#{@picture.album.id}/#{@picture.previous.id}/" }
+        %a{ :href => "#{$app_root}/#{@picture.album.id}/#{@picture.previous.id}/" }
           Previous
       
     %li
-      %a{ :href => "/#{@picture.album.id}/#{@picture.album.pictures.first.id}/" }
+      %a{ :href => "#{$app_root}/#{@picture.album.id}/" }
         Album
         
     %li
-      %a{ :href => '/' }
+      %a{ :href => '#{$app_root}/' }
         Index
 
-- url = "/#{@picture.album.id}/" + (@picture.next.nil? ? '' : "#{@picture.next.id}/")
+- url = "#{$app_root}/#{@picture.album.id}/" + (@picture.next.nil? ? '' : "#{@picture.next.id}/")
 %a{ :href => url }
-  %img{ :src => "/#{@picture.album.id}/#{@picture.id}/m/" }
+  %img{ :src => "#{$app_root}/#{@picture.album.id}/#{@picture.id}/m/" }
   
-%meta{ :'http-equiv' => 'refresh', :content => "3;url=/#{@picture.album.id}/#{@picture.next.id}/s/" }
+%meta{ :'http-equiv' => 'refresh', :content => "3;url=#{$app_root}/#{@picture.album.id}/#{@picture.next.id}/s/" }
