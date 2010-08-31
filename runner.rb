@@ -16,9 +16,11 @@ class Gallery < Sinatra::Base
 	
 	before do
 		if @env['rack.session']['uid'] then
-			puts @env['rack.session']['uid']
-		else
-			redirect '/'
+			if @request.path_info == '/login' then
+				redirect '/gallery/'
+			end
+		elsif @request.path_info != '/login' then
+			redirect '/gallery/login'
 		end
 	end
 	
@@ -28,6 +30,10 @@ class Gallery < Sinatra::Base
 		@albums = Album.all
 		@title = "Albums"
 		haml :index
+	end
+	
+	get '/login' do
+		haml :login
 	end
 
 	get '/t/:tag/' do
