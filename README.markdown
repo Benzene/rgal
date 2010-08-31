@@ -1,16 +1,19 @@
 # rGal
 
 rGal, a web based photo gallery written in Ruby, using the Sinatra framework.
+This is an experimental fork, where I have made some consequent changes to the original code. It is not yet distribution-ready, as it is aimed at my personal usage, and such, still contains some hardcoded paths and other ugly things. Be aware.
 
 ## Required Gems
 
 * sqlite3-ruby
-* activerecord
+* dm-core
+* dm-sqlite-adapter
+* dm-validations
 * rack (0.9.1)
 * sinatra (0.9.0.4)
-* mongrel
 * rmagick
 * haml
+* Any markdown implementation. I use rdiscount
 
 ## Usage
 
