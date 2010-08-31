@@ -14,6 +14,14 @@ class Gallery < Sinatra::Base
 
 	set :root, File.dirname(__FILE__)
 	
+	before do
+		if @env['rack.session']['uid'] then
+			puts @env['rack.session']['uid']
+		else
+			redirect '/'
+		end
+	end
+	
 	get '/' do
 		@tags = Tag.find_all
 #		@albums = Album.find_untagged
