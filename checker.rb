@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
-require 'lib/boot'
+require_relative 'lib/boot'
 
 puts "== Checking files"
 puts

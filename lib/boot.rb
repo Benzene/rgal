@@ -28,9 +28,9 @@ end
 DATA = DATA_PATH.realpath
 
 # setup db
-require 'lib/db'
+require_relative 'db'
 
 # include models
 Dir["models/*.rb"].each do |model|
-	require model
+	require_relative '../' << model
 end
